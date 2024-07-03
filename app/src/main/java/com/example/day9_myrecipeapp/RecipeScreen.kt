@@ -10,12 +10,15 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,14 +29,14 @@ fun RecipeScreen(modifier : Modifier = Modifier) {
     val recipeViewModel : MainViewModel = viewModel()
     val viewState by recipeViewModel.categoriesState
 
-    Box(Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
         when {
             viewState.loading -> {
-               Text("LOADING!!")
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
 
             viewState.error!=null -> {
-                Text(text = "ERROR OCCURRED", modifier = Modifier.align(Alignment.Center))
+                Text(text = "ERROR OCCURRED", modifier = modifier.align(Alignment.Center))
             }
 
             else -> {
@@ -57,13 +60,13 @@ fun CategoryScreen(categories: List<Category>) {
 
 //How Each Category Item Looks
 @Composable
-fun CategoryItem(modifier : Modifier = Modifier, category : Category) {
+fun CategoryItem(category : Category) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
         Image(
-            painter = rememberAsyncImagePainter(model = category.strCategoryThumb),
+            painter = rememberAsyncImagePainter(category.strCategoryThumb),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
@@ -72,8 +75,8 @@ fun CategoryItem(modifier : Modifier = Modifier, category : Category) {
 
         Text(
             text = category.strCategory,
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            style = TextStyle(fontWeight = FontWeight.Bold),
             modifier = Modifier.padding(top = 4.dp)
         )
     }

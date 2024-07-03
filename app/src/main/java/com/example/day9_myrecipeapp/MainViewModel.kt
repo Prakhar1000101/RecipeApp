@@ -21,7 +21,7 @@ class MainViewModel: ViewModel() {
                 val response = recipeService.getCategories()
                 _categoryState.value = _categoryState.value.copy(
                     list = response.categories,
-                    error = "No Categories Fetched",
+                    error = null,
                     loading = false
                 )
 
